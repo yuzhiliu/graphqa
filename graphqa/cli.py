@@ -8,7 +8,7 @@ import click
 @click.command()
 def main(args=None):
     """Console script for graphqa."""
-    click.echo("Replace this message by putting your code into "
+    click.echo("A simple code to translate English to Cypher "
                "graphqa.cli.main")
     click.echo("See click documentation at http://click.pocoo.org/")
     return 0

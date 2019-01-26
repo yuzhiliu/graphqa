@@ -25,4 +25,4 @@ database by
 
 ```bash
 bash start-neo4j-database.sh
-```bash
+```
