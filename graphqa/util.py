@@ -57,7 +57,6 @@ def expand_unknown_vocab(line, vocab):
 
 
     for t in unknowns:
-        spaced = ''.join([f"<{c}> " for c in t])
         spaced = ''.join(["<"+c+"> " for c in t])
         line = line.replace(t, spaced)
 
