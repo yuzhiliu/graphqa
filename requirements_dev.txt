@@ -11,7 +11,7 @@ twine==1.12.1
 pytest==3.8.2
 pytest-runner==4.2
 
-pyyaml = "*"
-tensorflow = "*"
-tqdm = "*"
-"neo4j-driver" = "*"
+pyyaml = 3.12
+tensorflow = 1.12.0
+tqdm = 4.29.1
+"neo4j-driver" = 1.6.0
