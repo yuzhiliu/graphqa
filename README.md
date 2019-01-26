@@ -13,6 +13,18 @@ Run
 make install
 ```
 
+# Build the dataset to be used by training
+
+Run
+```bash
+python -m graphqa.build_data
+```
+This will download the data from
+[GoogleCloud](https://storage.googleapis.com/octavian-static/download/english2cypher/gqa.zip),
+tokenlize the data and partition them into three different files for training,
+evaluation, and prediction. The files will be saved under data/ direction by
+default.
+
 # Training the model
 
 
