@@ -52,14 +52,11 @@ def expand_unknown_vocab(line, vocab):
     """
     ts = set(line.split(' '))
     unknowns = ts
-    print('unknowns before', unknowns)
     unknowns -= set(vocab)
     unknowns -= set([''])
-    print('unknowns after', unknowns)
 
 
     for t in unknowns:
-        print(t)
         spaced = ''.join([f"<{c}> " for c in t])
         line = line.replace(t, spaced)
 
@@ -133,7 +130,6 @@ def detokenize_cypher(text):
     """ Detokenize Cypher. """
     for p in CYPHER_PUNCTUATION:
         text = text.replace(f" {p} ", p)
-    #print(text)
 
     text = detokenize_specials(text)
     return text

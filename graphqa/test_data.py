@@ -21,20 +21,13 @@ class TestStringMethods(unittest.TestCase):
         ct = 1
 
         for query in data:
-            print(ct)
             ct += 1
             p = pretokenize_cypher(query)
-            print('query', query)
-            print('pretokenize_cypher', p)
             p = expand_unknown_vocab(p, tokens)
-            print('expand', p)
             p = p.split(' ')
             p = [i for i in p if i != ""]
             p = ''.join(p)
-            #print(p)
             p = detokenize_cypher(p)
-            #print(query)
-            #print(p)
             self.assertEqual(p, query)
 
 
