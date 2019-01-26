@@ -39,8 +39,6 @@ def get_args(extend=lambda a:None):
     parser.add_argument('--max-gradient-norm', type=float, default=4)
 
     parser.add_argument('--quick', action='store_true', help="Compromise model quality for training speed")
-
-
     # Return vars so it's easy to manipulate / mock the structure
     # I wish python was like javascript and had the same underlying datatype for class instances and dicts
     args = vars(parser.parse_args())
@@ -60,3 +58,6 @@ def get_args(extend=lambda a:None):
         args["vocab_size"] = 32
 
     return args
+
+if __name__ == '__main__':
+    unittest.main()
