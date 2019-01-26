@@ -66,7 +66,7 @@ def expand_unknown_vocab(line, vocab):
 def pretokenize_general(text):
     """ Remove '\s*$' and replace ' ' by ' <space> '"""
     text = re.sub(r'\s*$', '', text)
-    text = text.replace(" ", f" {SPACE} ")
+    text = text.replace(" ", " " + SPACE + " ")
     return text
 
 def pretokenize_cypher(text):
