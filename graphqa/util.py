@@ -82,7 +82,7 @@ def pretokenize_cypher(text):
     text = pretokenize_general(text)
 
     for p in CYPHER_PUNCTUATION:
-        text = text.replace(p, f" {p} ")
+        text = text.replace(p, " " + p + " ")
         # text = text.replace("  ", " ")
     return text
 
@@ -93,7 +93,7 @@ def pretokenize_english(text):
     """
     text = pretokenize_general(text)
     for p in ENGLISH_PUNCTUATION:
-        text = text.replace(p, f" {p} ")
+        text = text.replace(p, " " + p + " ")
 
     # From Keras Tokenizer
     # filters = '!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n'
@@ -129,7 +129,7 @@ def detokenize_specials(s, join=''):
 def detokenize_cypher(text):
     """ Detokenize Cypher. """
     for p in CYPHER_PUNCTUATION:
-        text = text.replace(f" {p} ", p)
+        text = text.replace(" " + p + " ", p)
 
     text = detokenize_specials(text)
     return text
@@ -138,7 +138,7 @@ def detokenize_cypher(text):
 def detokenize_english(text):
     """ Detokenize English. """
     for p in ENGLISH_PUNCTUATION:
-        text = text.replace(f" {p} ", p)
+        text = text.replace(" " + p + " ", p)
 
     return detokenize_specials(text)
 
