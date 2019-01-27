@@ -121,4 +121,4 @@ test/
 
 # Others
 notes/
-data/
+data/*txt

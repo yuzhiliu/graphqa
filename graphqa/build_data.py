@@ -105,6 +105,7 @@ def expand_unknowns_and_partition(args):
         for j in suffixes:
             files[i][j] = tf.gfile.GFile(args[f"{i}_{j}_path"], "w")
 
+    count = 0
     for line in tqdm(lines):
         r = random.random()
 
@@ -114,6 +115,15 @@ def expand_unknowns_and_partition(args):
             mode = "predict"
         else:
             mode = "train"
+
+        # make sure there is at least one record for each file.
+        if count == 0:
+            mode == 'eval'
+        elif count == 1:
+            mode == 'predict'
+        elif count == 2:
+            mode == 'train'
+        count += 1
 
         for idx, suffix in enumerate(suffixes):
             in_line = line[idx].replace("\n","")

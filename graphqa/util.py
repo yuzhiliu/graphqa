@@ -8,8 +8,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-# --------------------------------------------------------------------------
-
 UNK = "<unk>"
 SOS = "<sos>"
 EOS = "<eos>"
@@ -23,7 +21,6 @@ EOS_ID = special_tokens.index(EOS)
 CYPHER_PUNCTUATION = "()[]-=\"',.;:?"
 ENGLISH_PUNCTUATION = '!"#$%&()*+,-./:;=?@[\\]^_`{|}~'
 
-# --------------------------------------------------------------------------
 
 def load_vocab(args):
     """
@@ -40,8 +37,6 @@ def load_vocab(args):
 
     return tokens
 
-# --------------------------------------------------------------------------
-
 
 def expand_unknown_vocab(line, vocab):
     """
@@ -55,7 +50,6 @@ def expand_unknown_vocab(line, vocab):
     unknowns -= set(vocab)
     unknowns -= set([''])
 
-
     for t in unknowns:
         spaced = ''.join(["<"+c+"> " for c in t])
         line = line.replace(t, spaced)
@@ -64,14 +58,15 @@ def expand_unknown_vocab(line, vocab):
 
 
 def pretokenize_general(text):
-    """ Remove '\s*$' and replace ' ' by ' <space> '"""
+    """ Remove '\\s*$' and replace ' ' by ' <space> '"""
     text = re.sub(r'\s*$', '', text)
     text = text.replace(" ", " " + SPACE + " ")
     return text
 
+
 def pretokenize_cypher(text):
     """
-    First remove '\s*$' and replace ' ' by ' <space> '
+    First remove '\\s*$' and replace ' ' by ' <space> '
     Then add spaces before and after "()[]-=\"',.;:?"
     Also treat spaces as tokens.
     """
@@ -86,9 +81,10 @@ def pretokenize_cypher(text):
         # text = text.replace("  ", " ")
     return text
 
+
 def pretokenize_english(text):
     """
-    First remove '\s*$' and replace ' ' by ' <space> '
+    First remove '\\s*$' and replace ' ' by ' <space> '
     Then add spaces before and after '!"#$%&()*+,-./:;=?@[\\]^_`{|}~'
     """
     text = pretokenize_general(text)
@@ -104,7 +100,6 @@ def pretokenize_english(text):
 
     return text
 
-# --------------------------------------------------------------------------
 
 def detokenize_specials(s, join=''):
     """ Detokenize the spacial characters. """
@@ -143,8 +138,6 @@ def detokenize_english(text):
     return detokenize_specials(text)
 
 
-# --------------------------------------------------------------------------
-
 def mode_best_effort(l):
     """Mode of list. Will return single element even if multi-modal"""
 
@@ -155,13 +148,10 @@ def mode_best_effort(l):
     return c.most_common(1)[0][0]
 
 
-
-# --------------------------------------------------------------------------
-
-
 def prediction_row_to_cypher(pred):
     options = [prediction_to_cypher(i) for i in pred["beam"]]
     return mode_best_effort(options)
+
 
 def prediction_to_(p, detokenize_fn):
     decode_utf8 = np.vectorize(lambda v: v.decode("utf-8"))
@@ -170,10 +160,10 @@ def prediction_to_(p, detokenize_fn):
     s = detokenize_fn(s)
     return s
 
+
 def prediction_to_english(p):
     return prediction_to_(p, detokenize_english)
 
+
 def prediction_to_cypher(p):
     return prediction_to_(p, detokenize_cypher)
-
-

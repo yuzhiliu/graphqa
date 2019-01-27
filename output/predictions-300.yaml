@@ -1,0 +1,16 @@
+beam:
+- '    '
+- '   '
+- '    '
+- '     '
+- '    '
+- '     '
+- '     '
+- '     '
+- '    '
+- '     '
+guided:
+- ''
+input: '  la a i Cing'
+target:
+- '   i Cing          '
