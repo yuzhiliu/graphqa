@@ -43,8 +43,8 @@ be helpful to use this to debug the code.
 
 # Running the model to make predictions
 
-You will need to have a graph database installed to use. The simplest way is to
-run a Docker image created by [Andrew
+You will need to have a graph database installed to make predictions. The
+simplest way is to run a Docker image created by [Andrew
 Jefferson](https://neo4j.com/staff/andrew-jefferson/) and then create a
 database by 
 
@@ -52,4 +52,7 @@ database by
 bash start-neo4j-database.sh
 ```
 
-
+One can then run the following script to make predictions
+```bash
+python -m graphqa.predict
+```
