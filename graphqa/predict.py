@@ -22,7 +22,7 @@ from .input import gen_input_fn
 from db import *
 
 def translate(args, question):
-
+    """ Translate Englisth into Cypher. """
     estimator = tf.estimator.Estimator(
         model_fn,
         model_dir=args["model_dir"],
@@ -36,7 +36,7 @@ def translate(args, question):
 
 
 def print_examples(args):
-
+    """ Print example questions. """
     with open(args['graph_path']) as file:
         for qa in yaml.load_all(file):
             if qa is not None:
@@ -75,16 +75,15 @@ def print_examples(args):
 
 
 def download_model(args):
+    """ Download the model from GoogleCloud. """
     if not tf.gfile.Exists(os.path.join(args["model_dir"], "checkpoint")):
         zip_path = "./model_checkpoint.zip"
         print("Downloading model (850mb)")
         urllib.request.urlretrieve ("https://storage.googleapis.com/octavian-static/download/english2cypher/model_checkpoint.zip", zip_path)
-
         print("Downloading vocab for model")
         assert args["vocab_path"][0:len(args["input_dir"])] == args["input_dir"], "Vocab path must be inside input-dir for automatic download"
         pathlib.Path(args["input_dir"]).mkdir(parents=True, exist_ok=True)
         urllib.request.urlretrieve ("https://storage.googleapis.com/octavian-static/download/english2cypher/vocab.txt", args["vocab_path"])
-
         print("Unzipping")
         pathlib.Path(args["model_dir"]).mkdir(parents=True, exist_ok=True)
         with zipfile.ZipFile(zip_path,"r") as zip_ref:
@@ -102,7 +101,7 @@ if __name__ == "__main__":
 
     logging.basicConfig()
     logger.setLevel(args["log_level"])
-    logging.getLogger('e2c').setLevel(args["log_level"])
+    logging.getLogger('graphqa').setLevel(args["log_level"])
 
     tf.logging.set_verbosity(tf.logging.ERROR)
 
@@ -122,21 +121,24 @@ if __name__ == "__main__":
 
             logger.debug("Translating...")
             query_cypher = translate(args, query_english)
-            print(f"Translation into cypher: '{query_cypher}'")
-            print()
 
             logger.debug("Run query")
             try:
                 result = run_query(session, query_cypher)
             except CypherSyntaxError:
                 print("Drat, that translation failed to execute in Neo4j!")
-                traceback.print_exc()
+                continue
+                #traceback.print_exc()
             else:
                 all_answers = []
                 for i in result:
                     for j in i.values():
                         all_answers.append(str(j))
 
-                print("Answer: " + ', '.join(all_answers))
+                if len(all_answers) == 0:
+                    print("Answer: There is always an answer but I wouldn't tell you now. Try to ask another one")
+                else:
+                    print(f"Translation into cypher: '{query_cypher}'")
+                    print()
+                    print("Answer: " + ', '.join(all_answers))
                 print()
-
