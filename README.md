@@ -27,6 +27,11 @@ default.
 
 # Training the model
 
+Run
+```bash
+python -m graphqa.train
+```
+This will take a while to complete.
 
 # Running the model to make predictions
 
