@@ -51,22 +51,22 @@ def expand_unknown_vocab(line, vocab):
     unknowns -= set([''])
 
     for t in unknowns:
-        spaced = ''.join(["<"+c+"> " for c in t])
+        spaced = ''.join([f"<{c}> " for c in t])
         line = line.replace(t, spaced)
 
     return line
 
 
 def pretokenize_general(text):
-    """ Remove '\\s*$' and replace ' ' by ' <space> '"""
+    """ Remove '\s*$' and replace ' ' by ' <space> '"""
     text = re.sub(r'\s*$', '', text)
-    text = text.replace(" ", " " + SPACE + " ")
+    text = text.replace(" ", f" {SPACE} ")
     return text
 
 
 def pretokenize_cypher(text):
     """
-    First remove '\\s*$' and replace ' ' by ' <space> '
+    First remove '\s*$' and replace ' ' by ' <space> '
     Then add spaces before and after "()[]-=\"',.;:?"
     Also treat spaces as tokens.
     """
@@ -77,19 +77,19 @@ def pretokenize_cypher(text):
     text = pretokenize_general(text)
 
     for p in CYPHER_PUNCTUATION:
-        text = text.replace(p, " " + p + " ")
+        text = text.replace(p, f" {p} ")
         # text = text.replace("  ", " ")
     return text
 
 
 def pretokenize_english(text):
     """
-    First remove '\\s*$' and replace ' ' by ' <space> '
+    First remove '\s*$' and replace ' ' by ' <space> '
     Then add spaces before and after '!"#$%&()*+,-./:;=?@[\\]^_`{|}~'
     """
     text = pretokenize_general(text)
     for p in ENGLISH_PUNCTUATION:
-        text = text.replace(p, " " + p + " ")
+        text = text.replace(p, f" {p} ")
 
     # From Keras Tokenizer
     # filters = '!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n'
@@ -124,7 +124,7 @@ def detokenize_specials(s, join=''):
 def detokenize_cypher(text):
     """ Detokenize Cypher. """
     for p in CYPHER_PUNCTUATION:
-        text = text.replace(" " + p + " ", p)
+        text = text.replace(f" {p} ", p)
 
     text = detokenize_specials(text)
     return text
@@ -133,7 +133,7 @@ def detokenize_cypher(text):
 def detokenize_english(text):
     """ Detokenize English. """
     for p in ENGLISH_PUNCTUATION:
-        text = text.replace(" " + p + " ", p)
+        text = text.replace(f" {p} ", p)
 
     return detokenize_specials(text)
 
@@ -152,7 +152,6 @@ def prediction_row_to_cypher(pred):
     options = [prediction_to_cypher(i) for i in pred["beam"]]
     return mode_best_effort(options)
 
-
 def prediction_to_(p, detokenize_fn):
     decode_utf8 = np.vectorize(lambda v: v.decode("utf-8"))
     p = decode_utf8(p)
@@ -160,10 +159,10 @@ def prediction_to_(p, detokenize_fn):
     s = detokenize_fn(s)
     return s
 
-
 def prediction_to_english(p):
     return prediction_to_(p, detokenize_english)
 
-
 def prediction_to_cypher(p):
     return prediction_to_(p, detokenize_cypher)
+
+
