@@ -33,6 +33,14 @@ python -m graphqa.train
 ```
 This will take a while to complete.
 
+Alternatively, one can try
+```bash
+python -m graphqa.train --quick
+```
+This will use smaller batch size, one layer, et al. and existing test input
+files to train the model. The result will not be good at all though. It might
+be helpful to use this to debug the code.
+
 # Running the model to make predictions
 
 You will need to have a graph database installed to use. The simplest way is to
@@ -43,3 +51,5 @@ database by
 ```bash
 bash start-neo4j-database.sh
 ```
+
+
