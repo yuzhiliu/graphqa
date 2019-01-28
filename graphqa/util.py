@@ -3,7 +3,6 @@ import numpy as np
 import string
 import re
 import tensorflow as tf
-import str
 
 import logging
 logger = logging.getLogger(__name__)
@@ -59,7 +58,7 @@ def expand_unknown_vocab(line, vocab):
 
 
 def pretokenize_general(text):
-    """ Remove '\s*$' and replace ' ' by ' <space> '"""
+    """ Remove 's*$' and replace ' ' by ' <space> '"""
     text = re.sub(r'\s*$', '', text)
     text = text.replace(" ", f" {SPACE} ")
     return text
@@ -67,7 +66,7 @@ def pretokenize_general(text):
 
 def pretokenize_cypher(text):
     """
-    First remove '\s*$' and replace ' ' by ' <space> '
+    First remove 's*$' and replace ' ' by ' <space> '
     Then add spaces before and after "()[]-=\"',.;:?"
     Also treat spaces as tokens.
     """
@@ -85,13 +84,13 @@ def pretokenize_cypher(text):
 
 def pretokenize_english(text):
     """
-    First remove '\s*$' and replace ' ' by ' <space> '
+    First remove 's*$' and replace ' ' by ' <space> '
     Then add spaces before and after '!"#$%&()*+,-./:;=?@[\\]^_`{|}~'
     """
     text = pretokenize_general(text)
-    for p in ENGLISH_PUNCTUATION:
-        text = text.replace(p, f" {p} ")
-    table = str.maketrans({p: f" {p} " for p in ENGLISH_PUNCTUATION})
+    #for p in ENGLISH_PUNCTUATION:
+    #    text = text.replace(p, f" {p} ")
+    table = string.maketrans({p: f" {p} " for p in ENGLISH_PUNCTUATION})
     text.translate(table)
 
     # From Keras Tokenizer
