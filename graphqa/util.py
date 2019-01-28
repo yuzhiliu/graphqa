@@ -1,9 +1,9 @@
-# -*- coding: future_fstrings -*-
 from collections import Counter
 import numpy as np
 import string
 import re
 import tensorflow as tf
+import str
 
 import logging
 logger = logging.getLogger(__name__)
@@ -91,6 +91,8 @@ def pretokenize_english(text):
     text = pretokenize_general(text)
     for p in ENGLISH_PUNCTUATION:
         text = text.replace(p, f" {p} ")
+    table = str.maketrans({p: f" {p} " for p in ENGLISH_PUNCTUATION})
+    text.translate(table)
 
     # From Keras Tokenizer
     # filters = '!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n'

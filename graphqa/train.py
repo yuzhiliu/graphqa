@@ -1,4 +1,3 @@
-# -*- coding: future_fstrings -*-
 import tensorflow as tf
 import os.path
 import numpy as np

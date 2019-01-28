@@ -1,4 +1,3 @@
-# -*- coding: future_fstrings -*-
 from typing import List, Dict, Any, Callable, Union, Tuple
 import ast
 import json

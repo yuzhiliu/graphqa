@@ -1,4 +1,3 @@
-# -*- coding: future_fstrings -*-
 import yaml
 import os.path
 import tensorflow as tf
