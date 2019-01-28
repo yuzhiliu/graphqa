@@ -1,5 +1,4 @@
 # Grapha QA
-
 [![Build Status](https://travis-ci.org/yuzhiliu/graphqa.svg?branch=week2)](https://travis-ci.org/yuzhiliu/graphqa)
 
 A question answering (QA) system built ove knowledge graphs (KG).
@@ -23,7 +22,7 @@ This will download the data from
 [GoogleCloud](https://storage.googleapis.com/octavian-static/download/english2cypher/gqa.zip),
 tokenlize the data, and partition them into three different files for training,
 evaluation, and prediction. The files will be saved under data/ diretory as
-"data/gqa.yaml" by default.
+"data/gqa.yaml", and six "txt" files by default.
 
 # Training the model
 
@@ -37,9 +36,9 @@ Alternatively, one can try
 ```bash
 python -m graphqa.train --quick
 ```
-This will use smaller batch size, one layer, et al. and existing test input
-files to train the model. The result will not be good at all though. It might
-be helpful to use this to debug the code.
+This will use smaller batch size, one layer network, et al. and existing small
+test input files to train the model. The result will not be good at all though.
+It might be helpful to use this to debug the code.
 
 # Running the model to make predictions
 

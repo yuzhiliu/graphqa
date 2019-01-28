@@ -1,3 +1,4 @@
+# -*- coding: future_fstrings -*-
 from collections import Counter
 import numpy as np
 import string

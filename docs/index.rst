@@ -1,3 +1,6 @@
+.. graphqa documentation 
+.. highlight:: python
+
 Welcome to graphqa's documentation!
 ======================================
 

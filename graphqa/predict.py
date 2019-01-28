@@ -1,3 +1,4 @@
+# -*- coding: future_fstrings -*-
 # Make TF be quiet
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"]="2"
