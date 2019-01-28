@@ -26,7 +26,6 @@ setup(
         'License :: OSI Approved :: BSD-2-Clause',
         'Natural Language :: English',
         'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
     ],
     description="A question answering (QA) system built ove knowledge graphs (KG).",
     entry_points={

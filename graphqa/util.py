@@ -26,6 +26,7 @@ def load_vocab(args):
     """
     Load the tokens from the file constructed by "build_vocab" function in
     build_data.py.
+	:type args: in practice never needed to construct args; only using get_args from args.py to construct the input.
     """
     tokens = list()
 

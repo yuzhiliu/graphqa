@@ -3,7 +3,13 @@ import os.path
 
 def get_args(extend=lambda a:None):
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description='graphqa: A question answering (QA) system built ove knowledge graphs (KG).',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        fromfile_prefix_chars='@',
+        epilog=textwrap.dedent("""
+                                Put details information here.
+                               """)
 
     extend(parser)
 
