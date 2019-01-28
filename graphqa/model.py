@@ -1,3 +1,6 @@
+# This code was based on https://github.com/Octavian-ai/english2cypher
+# Octavian.ai developed.
+
 import tensorflow as tf
 
 from .input import get_constants, load_inverse_vocab_hashtable

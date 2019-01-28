@@ -1,3 +1,6 @@
+# This code was based on https://github.com/Octavian-ai/english2cypher
+# Octavian.ai developed.
+
 from collections import Counter
 import numpy as np
 import string

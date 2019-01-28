@@ -1,3 +1,6 @@
+# This code was based on https://github.com/Octavian-ai/english2cypher
+# Octavian.ai developed.
+
 import tensorflow as tf
 import os.path
 import numpy as np

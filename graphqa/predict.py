@@ -1,3 +1,6 @@
+# This code was based on https://github.com/Octavian-ai/english2cypher
+# Octavian.ai developed.
+
 # Make TF be quiet
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"]="2"
