@@ -98,7 +98,7 @@ if __name__ == "__main__":
         parser.add_argument("--graph-path",   type=str, default="./data/gqa-single.yaml")
         parser.add_argument("--neo-url",      type=str, default="bolt://localhost:7687")
         parser.add_argument("--neo-user",     type=str, default="neo4j")
-        parser.add_argument("--neo-password", type=str, default="clegr-secrets")
+        parser.add_argument("--neo-password", type=str, default="goodpasswd")
 
     args = get_args(add_args)
 
