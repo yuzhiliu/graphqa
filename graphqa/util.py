@@ -94,7 +94,7 @@ def pretokenize_english(text):
     text = pretokenize_general(text)
     #for p in ENGLISH_PUNCTUATION:
     #    text = text.replace(p, f" {p} ")
-    table = string.maketrans({p: f" {p} " for p in ENGLISH_PUNCTUATION})
+    table = str.maketrans({p: f" {p} " for p in ENGLISH_PUNCTUATION})
     text.translate(table)
 
     # From Keras Tokenizer
