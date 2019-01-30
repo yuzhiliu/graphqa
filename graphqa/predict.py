@@ -135,8 +135,8 @@ if __name__ == "__main__":
         while True:
             query_english = str(input("Ask a question: ")).strip()
             # Pick one that is closest to the question asked
-            query_english = process.extractOne(query_english,
-                    questions)[0]
+            #query_english = process.extractOne(query_english,
+            #        questions)[0]
 
             logger.debug("Translating...")
             query_cypher = translate(args, query_english)

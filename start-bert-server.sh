@@ -14,4 +14,4 @@ if [ ! -f /tmp/${fname}.zip ]; then
 fi
 
 # start the BERT service
-bert-serving-start -model_dir /tmp/${fname}/ -num_worker=4&
+bert-serving-start -model_dir /tmp/${fname}/ -num_worker=1&

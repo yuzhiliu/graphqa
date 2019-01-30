@@ -1,7 +1,8 @@
 import numpy as np
 import tensorflow as tf
 import pickle
-
+from numpy import dot
+from fuzzywuzzy import process
 from bert_serving.client import BertClient
 
 dirname = "/home/ubuntu/graphqa/notes/"
@@ -15,66 +16,28 @@ with open(questions_path) as fp:
 bc = BertClient(port=5555, port_out=5556)
 doc_vecs = bc.encode(questions)
 
-pickle.dump(questions, open("questions_saved.p", "wb"))
-pickle.dump(doc_vecs, open("doc_vecs_saved.p", "wb"))
-"""
-topk = 5
-while True:
-    query = input('your question: ')
-    query_vec = bc.encode([query])[0]
-    # compute simple dot product as score
-    score = np.sum(query_vec * doc_vecs, axis=1)
-    topk_idx = np.argsort(score)[::-1][:topk]
-    for idx in topk_idx:
-        print('> %s\t%s' % (score[idx], questions[idx]))
-"""
-# https://github.com/hanxiao/bert-as-service/blob/master/client/README.md
-doc_label = [0] * len(questions) # a dummy list of all-zero labels
+def cos_sim(a, b):
+	"""
+        Takes 2 vectors a, b and returns the cosine similarity according
+	to the definition of the dot product.
+	"""
+	dot_product = np.dot(a, b)
+	norm_a = np.linalg.norm(a)
+	norm_b = np.linalg.norm(b)
+	return dot_product / (norm_a * norm_b)
 
-questions = 0
-doc_vecs = 0
-questions = pickle.load(open("questions_saved.p", "rb"))
-doc_vecs = pickle.load(open("doc_vecs_saved.p", "rb"))
-
-#fn_encoded = fname + ".encoded"
-## write to tfrecord
-#with tf.python_io.TFRecordWriter(fn_encoded) as writer:
-#    def create_float_feature(values):
-#        return tf.train.Feature(float_list=tf.train.FloatList(value=values))
-#
-#    def create_int_feature(values):
-#        return tf.train.Feature(int64_list=tf.train.Int64List(value=list(values)))
-#
-#    for (vec, label) in zip(doc_vecs, doc_label):
-#        features = {'features': create_float_feature(vec), 'labels': create_int_feature([label])}
-#        tf_example = tf.train.Example(features=tf.train.Features(feature=features))
-#        writer.write(tf_example.SerializeToString())
-#
-#def _decode_record(record):
-#    """Decodes a record to a TensorFlow example."""
-#    return tf.parse_single_example(record, {
-#        'features': tf.FixedLenFeature([768], tf.float32),
-#        'labels': tf.FixedLenFeature([], tf.int64),
-#    })
-#
-#
-#
-#ds = (tf.data.TFRecordDataset(fn_encoded).repeat().shuffle(buffer_size=100).apply(
-#    #tf.contrib.data.map_and_batch(lambda record: _decode_record(record), batch_size=64))
-#    #  .make_one_shot_iterator().get_next())
-#    tf.data.experimental.map_and_batch(lambda record: _decode_record(record), batch_size=64))
-#      .make_one_shot_iterator().get_next())
-#print(doc_vecs)
-#print(ds)
 
 topk = 10
 while True:
     query = input('your question: ')
     query_vec = bc.encode([query])[0]
-    # compute simple dot product as score
+    # Compute simple dot product as score
     score = np.sum(query_vec * doc_vecs, axis=1)
-    score.sort()
+    # Compute cosine similarity as score
+    score = [cos_sim(query_vec, doc_vec) for doc_vec in doc_vecs]
     print(score[::-1])
+    query_english = process.extractOne(query, questions)[0]
+    print(query_english)
     topk_idx = np.argsort(score)[::-1][:topk]
     for idx in topk_idx:
         print('> %s\t%s' % (score[idx], questions[idx]))
