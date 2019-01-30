@@ -15,6 +15,8 @@ from neo4j.exceptions import CypherSyntaxError
 import zipfile
 import urllib.request
 import pathlib
+#import fuzzywuzzy
+from fuzzywuzzy import process
 
 logger = logging.getLogger(__name__)
 
@@ -92,6 +94,14 @@ def download_model(args):
         with zipfile.ZipFile(zip_path,"r") as zip_ref:
             zip_ref.extractall(args["model_dir"])
 
+def load_questions(args):
+    """ Read in the predefined questions. """
+    with open(args["questions_path"]) as fp:
+        questions = fp.read().splitlines()
+        print('%d questions loaded, avg. len of %d' % (len(questions), np.mean([len(d.split()) for d in questions])))
+        return questions
+
+
 if __name__ == "__main__":
 
     def add_args(parser):
@@ -99,6 +109,7 @@ if __name__ == "__main__":
         parser.add_argument("--neo-url",      type=str, default="bolt://localhost:7687")
         parser.add_argument("--neo-user",     type=str, default="neo4j")
         parser.add_argument("--neo-password", type=str, default="goodpasswd")
+        parser.add_argument("--questions-path",   type=str, default="./data/all_questions.txt")
 
     args = get_args(add_args)
 
@@ -112,6 +123,8 @@ if __name__ == "__main__":
 
     download_model(args)
 
+    questions = load_questions(args)
+
     with Neo4jSession(args) as session:
         logger.debug("Empty database")
         nuke(session)
@@ -121,6 +134,9 @@ if __name__ == "__main__":
 
         while True:
             query_english = str(input("Ask a question: ")).strip()
+            # Pick one that is closest to the question asked
+            query_english = process.extractOne(query_english,
+                    questions)[0]
 
             logger.debug("Translating...")
             query_cypher = translate(args, query_english)
