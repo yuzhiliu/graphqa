@@ -1,0 +1,1 @@
+MATCH <space>  ( var1 )  <space> WHERE <space> var1 . name =  " <T> <i> <v>  <space> <C> <r> <o> <s> <s> <i> <n> <g>  "  <space>  <space> WITH <space> 1 <space> AS <space> foo ,  <space> var1 . music <space> AS <space> var2 <space> RETURN <space> var2
