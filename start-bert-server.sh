@@ -5,6 +5,7 @@
 
 # download the BERT model
 fname='uncased_L-12_H-768_A-12'
+fname='uncased_L-24_H-1024_A-16'
 cd /tmp/
 
 if [ ! -f /tmp/${fname}.zip ]; then
