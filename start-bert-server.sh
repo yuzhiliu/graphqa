@@ -3,9 +3,15 @@
 # Details are here:
 # https://github.com/hanxiao/bert-as-service#speech_balloon-faq
 
-# download the BERT model
-fname='uncased_L-12_H-768_A-12'
-fname='uncased_L-24_H-1024_A-16'
+# Download the BERT model
+# https://github.com/google-research/bert
+# fname='uncased_L-12_H-768_A-12'  # BERT-Base, Uncased
+fname='uncased_L-24_H-1024_A-16' # BERT-Large, Uncased
+
+# Specify the number of workers. The server can handle up to num_worker
+# concurrent requests.
+num_worker = 1
+
 cd /tmp/
 
 if [ ! -f /tmp/${fname}.zip ]; then
@@ -13,5 +19,5 @@ if [ ! -f /tmp/${fname}.zip ]; then
     unzip /tmp/${fname}.zip -d /tmp/
 fi
 
-# start the BERT service
-bert-serving-start -model_dir /tmp/${fname}/ -num_worker=1&
+# Start the BERT service
+bert-serving-start -model_dir /tmp/${fname}/ -num_worker=${num_worker}&

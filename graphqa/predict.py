@@ -15,7 +15,6 @@ from neo4j.exceptions import CypherSyntaxError
 import zipfile
 import urllib.request
 import pathlib
-#import fuzzywuzzy
 from fuzzywuzzy import process
 
 logger = logging.getLogger(__name__)
@@ -94,6 +93,7 @@ def download_model(args):
         with zipfile.ZipFile(zip_path,"r") as zip_ref:
             zip_ref.extractall(args["model_dir"])
 
+
 def load_questions(args):
     """ Read in the predefined questions. """
     with open(args["questions_path"]) as fp:
@@ -101,6 +101,29 @@ def load_questions(args):
         print('%d questions loaded, avg. len of %d' % (len(questions), np.mean([len(d.split()) for d in questions])))
         return questions
 
+def cos_sim(a, b):
+    """
+    Takes 2 vectors a, b and returns the cosine similarity according to the
+    definition of the dot product.
+    """
+    dot_product = np.dot(a, b)
+    norm_a = np.linalg.norm(a)
+    norm_b = np.linalg.norm(b)
+    return dot_product / (norm_a * norm_b)
+
+
+def extract_one_bert(query, questions):
+    """
+    User BERT to find the most similar question from the questions. This
+    can also be realized by fuzzywuzzy.
+    BERT Server needs to be started first. See start-bert-server.sh.
+    """
+    bc = BertClient(port=5555, port_out=5556)
+    query_vec = bc.encode([query])[0]
+    doc_vecs = bc.encode(questions)
+    score = [cos_sim(query_vec, doc_vec) for doc_vec in doc_vecs]
+    idx = np.argsort(score)[::-1][0]
+    return questions[idx]
 
 if __name__ == "__main__":
 
@@ -135,8 +158,8 @@ if __name__ == "__main__":
         while True:
             query_english = str(input("Ask a question: ")).strip()
             # Pick one that is closest to the question asked
-            #query_english = process.extractOne(query_english,
-            #        questions)[0]
+            query_english = process.extractOne(query_english, questions)[0]
+            # query_english = extract_one_bert(query_english, questions)
 
             logger.debug("Translating...")
             query_cypher = translate(args, query_english)
