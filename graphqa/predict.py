@@ -16,6 +16,7 @@ import zipfile
 import urllib.request
 import pathlib
 from fuzzywuzzy import process
+from bert_serving.client import BertClient
 
 logger = logging.getLogger(__name__)
 
