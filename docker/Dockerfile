@@ -44,18 +44,26 @@ RUN cd /tmp \
 
 FROM nvidia/cuda:10.0-base-ubuntu18.04 as runtime
 
-RUN apt-get update && apt-get install -y \
-  git \
-  python3.6 \
-  python3-pip \
-  python3-dev
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && apt-get update \
+ && apt-get install --no-install-recommends -y \
+    git \
+    python3.6 \
+    python3-pip \
+    python3-dev \
+ && apt-get autoremove -y \
+ && apt-get clean \
+ && apt-get autoclean \
+ && rm -rf /var/lib/apt/lists/*
 
 # COPY ./requirements.txt /requirements.txt
 # RUN pip install -r /requirements.txt
 
-ARG UID
-RUN useradd docker -l -u $UID -s /bin/bash -m
-USER docker
+#ARG UID
+#RUN useradd docker -l -u $UID -s /bin/bash -m
+#USER docker
+
+RUN mkdir -p /host_pwd
 
 WORKDIR /work
 
