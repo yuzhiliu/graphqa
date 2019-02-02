@@ -24,6 +24,10 @@ EOS_ID = special_tokens.index(EOS)
 CYPHER_PUNCTUATION = "()[]-=\"',.;:?"
 ENGLISH_PUNCTUATION = '!"#$%&()*+,-./:;=?@[\\]^_`{|}~'
 
+TABLE_SPACE = str.maketrans({p: f" {SPACE} " for p in " "})
+TABLE_CYPHER = str.maketrans({p: f" {p} " for p in CYPHER_PUNCTUATION})
+TABLE_ENGLISH = str.maketrans({p: f" {p} " for p in ENGLISH_PUNCTUATION})
+
 
 def load_vocab(args):
     """
@@ -35,7 +39,7 @@ def load_vocab(args):
 
     with tf.gfile.GFile(args["vocab_path"]) as file:
         for line in file.readlines():
-            tokens.append(line.replace("\n", ""))
+            tokens.append(line.rstrip())
             if len(tokens) == args["vocab_size"]:
                 return tokens
 
@@ -63,9 +67,7 @@ def expand_unknown_vocab(line, vocab):
 
 def pretokenize_general(text):
     """ Remove 's*$' and replace ' ' by ' <space> '"""
-    text = re.sub(r'\s*$', '', text)
-    text = text.replace(" ", f" {SPACE} ")
-    return text
+    return text.translate(TABLE_SPACE)
 
 
 def pretokenize_cypher(text):
@@ -79,11 +81,7 @@ def pretokenize_cypher(text):
     # so we can later reconstruct them
 
     text = pretokenize_general(text)
-
-    for p in CYPHER_PUNCTUATION:
-        text = text.replace(p, f" {p} ")
-        # text = text.replace("  ", " ")
-    return text
+    return text.translate(TABLE_CYPHER)
 
 
 def pretokenize_english(text):
@@ -91,11 +89,6 @@ def pretokenize_english(text):
     First remove 's*$' and replace ' ' by ' <space> '
     Then add spaces before and after '!"#$%&()*+,-./:;=?@[\\]^_`{|}~'
     """
-    text = pretokenize_general(text)
-    #for p in ENGLISH_PUNCTUATION:
-    #    text = text.replace(p, f" {p} ")
-    table = string.maketrans({p: f" {p} " for p in ENGLISH_PUNCTUATION})
-    text.translate(table)
 
     # From Keras Tokenizer
     # filters = '!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n'
@@ -104,11 +97,12 @@ def pretokenize_english(text):
     # translate_map = str.maketrans(filters, split * len(filters))
     # text = text.translate(translate_map)
 
-    return text
+    text = pretokenize_general(text)
+    return text.translate(TABLE_ENGLISH)
 
 
 def detokenize_specials(s, join=''):
-    """ Detokenize the spacial characters. """
+    """Detokenize the spacial characters."""
     try:
         end = s.index(EOS)
         s = s[0:end]
@@ -128,7 +122,7 @@ def detokenize_specials(s, join=''):
 
 
 def detokenize_cypher(text):
-    """ Detokenize Cypher. """
+    """Detokenize Cypher."""
     for p in CYPHER_PUNCTUATION:
         text = text.replace(f" {p} ", p)
 
@@ -137,7 +131,7 @@ def detokenize_cypher(text):
 
 
 def detokenize_english(text):
-    """ Detokenize English. """
+    """Detokenize English."""
     for p in ENGLISH_PUNCTUATION:
         text = text.replace(f" {p} ", p)
 
@@ -170,5 +164,3 @@ def prediction_to_english(p):
 
 def prediction_to_cypher(p):
     return prediction_to_(p, detokenize_cypher)
-
-

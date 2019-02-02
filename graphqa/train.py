@@ -102,11 +102,8 @@ def train(args):
 if __name__ == "__main__":
 
     def extend(parser):
-        parser.add_argument('--skip-training', action='store_true',
-                help='Whether to skip the training part of not. If yes, then
-                do not perform the training and only perform one prediction.')
-        parser.add_argument('--tokenize-data', action='store_true',
-                help='Whether to perform the tokenize data process or not.')
+        parser.add_argument('--skip-training', action='store_true', help='Whether to skip the training part of not. If yes, then do not perform the training and only perform one prediction.')
+        parser.add_argument('--tokenize-data', action='store_true', help='Whether to perform the tokenize data process or not.')
 
     args = get_args(extend)
 

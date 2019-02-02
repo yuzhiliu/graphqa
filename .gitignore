@@ -123,3 +123,5 @@ test/
 notes/
 data/*txt
 output/
+*.zip
+*.p
