@@ -23,7 +23,7 @@ requirements = [
         'twine==1.12.1',
         'pytest==3.8.2',
         'pytest-runner==4.2',
-        'pyyaml==3.12',
+        'pyyaml>=4.2b1',
         'tensorflow==1.12.0',
         'tqdm==4.29.1',
         'neo4j-driver==1.6.2',
