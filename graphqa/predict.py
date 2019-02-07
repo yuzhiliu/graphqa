@@ -16,6 +16,7 @@ import zipfile
 import urllib.request
 import pathlib
 from fuzzywuzzy import process
+import itertools
 
 logger = logging.getLogger(__name__)
 
@@ -53,8 +54,55 @@ def print_examples(args):
                 names = ', '.join(lines)
                 print("> " + names + "\n")
 
+    with tf.gfile.GFile(args["questions_path"], "w") as q_file:
+        for s1, s2 in itertools.combinations(stations, 2):
+            q_file.write(f"Are {s1} and {s2} on the same line?\n")
+            q_file.write(f"Are {s2} and {s1} on the same line?\n")
+
+        for s in stations:
+            q_file.write(f"How clean is {s}?\n")
+            q_file.write(f"How big is {s}?\n")
+            q_file.write(f"What music plays at {s}?\n")
+            q_file.write(f"What architectural style is {s}?\n")
+            q_file.write(f"Does {s} have disabled access?\n")
+            q_file.write(f"Does {s} have rail connections?\n")
+            q_file.write(f"Which lines is {s} on?\n")
+            q_file.write(f"How many lines is {s} on?\n")
+            q_file.write(f" {s}?\n")
+
+        for l in lines:
+            q_file.write(f"How many architectural styles does {s} pass through?\n")
+            q_file.write(f"How many music styles does {s} pass through?\n")
+            q_file.write(f"How many size of station does {s} pass through?\n")
+            q_file.write(f"How many stations playing classical does {s} pass through?\n")
+            q_file.write(f"How many clean stations does {s} pass through?\n")
+            q_file.write(f"How many large stations does {s} pass through?\n")
+            q_file.write(f"How many stations with disabled access does {s} pass through?\n")
+            q_file.write(f"How many stations with rail connections does {s} pass through?\n")
+            q_file.write(f"Which stations does {s} pass through?\n")
+
     a_station = lambda: random.choice(stations)
     a_line = lambda: random.choice(lines)
+    print(f"""Example questions:
+> Are {a_station()} and {a_station()} on the same line?
+> How clean is {a_station()}?
+> How big is {a_station()}?
+> What music plays at {a_station()}?
+> What architectural style is {a_station()}?
+> Does {a_station()} have disabled access?
+> Does {a_station()} have rail connections?
+> Which lines is {a_station()} on?
+> How many lines is {a_station()} on?
+> How many architectural styles does {a_line()} pass through?
+> How many music styles does {a_line()} pass through?
+> How many sizes of station does {a_line()} pass through?
+> How many stations playing classical does {a_line()} pass through?
+> How many clean stations does {a_line()} pass through?
+> How many large stations does {a_line()} pass through?
+> How many stations with disabled access does {a_line()} pass through?
+> How many stations with rail connections does {a_line()} pass through?
+> Which stations does {a_line()} pass through?
+""")
 
     print(f"""Example questions:
 > How clean is {a_station()}?
@@ -132,7 +180,7 @@ if __name__ == "__main__":
         parser.add_argument("--neo-url",      type=str, default="bolt://localhost:7687")
         parser.add_argument("--neo-user",     type=str, default="neo4j")
         parser.add_argument("--neo-password", type=str, default="goodpasswd")
-        parser.add_argument("--questions-path",   type=str, default="./data/all_questions.txt")
+        parser.add_argument("--questions-path",   type=str, default="./data/all_questions2.txt")
 
     args = get_args(add_args)
 
@@ -157,12 +205,15 @@ if __name__ == "__main__":
 
         while True:
             query_english = str(input("Ask a question: ")).strip()
+            print(query_english)
             # Pick one that is closest to the question asked
             query_english = process.extractOne(query_english, questions)[0]
             # query_english = extract_one_bert(query_english, questions)
+            print(query_english)
 
             logger.debug("Translating...")
             query_cypher = translate(args, query_english)
+            print(query_cypher)
 
             logger.debug("Run query")
             try:
@@ -177,6 +228,7 @@ if __name__ == "__main__":
                     for j in i.values():
                         all_answers.append(str(j))
 
+                print(all_answers)
                 if len(all_answers) == 0:
                     print("Answer: There is always an answer but I wouldn't tell you now. Try to ask another one")
                 else:
