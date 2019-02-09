@@ -17,7 +17,7 @@ This is based on [english2cypher](https://github.com/Octavian-ai/english2cypher)
 Currently the code is only tested under Python 3.6. The code will not work
 properly for Python version less than 3.6. This is mainly due to the use of
 [*f-String*](https://realpython.com/python-f-strings/) in the code. If the
-default Python version is not 3.6, one can either create a (*Virtual
+default Python version is not 3.6, one can either create a [*Virtual
 Environment*](https://docs.python-guide.org/dev/virtualenvs/) or use
 [*Conda*](https://docs.anaconda.com/anaconda/user-guide/tasks/switch-environment/).
 
@@ -27,12 +27,65 @@ Once Python 3.6 is installed, you can download this source code by running
 git clone https://github.com/yuzhiliu/graphqa/
 ```
 
-## Training – How to train a GraphQA system
-
-
+To install all the dependencies needed for running the code, one can first go
+to the package directory
+```shell
+cd graphqa
+```
+and then run
 ```shell
 make install
 ```
+
+## Training – How to train a GraphQA system
+
+Let's train our GraphQA model, translating from English to
+[Cypher](https://neo4j.com/developer/cypher-query-language/)! 
+
+We will use [CLEV graph](https://github.com/Octavian-ai/clevr-graph) dataset
+[Octavian-ai](https://www.octavian.ai/) created. The full dataset can be found
+[here](https://drive.google.com/open?id=1r2BS07_2lB25Vlo6a9HiafewTGENmI80).
+
+Run the following command to download and preprocess the data
+```shell
+python -m graphqa.build_data \
+    --input-dir=./data/ \
+    --skip-extract=False \
+    --gqa-path=./data/gqa.yaml \
+    --eval-holdback=0.2 \
+    --predict-holdback=0.1  \
+    --vocab-size=120
+```
+
+This will download the data automatically to ./data/gqa.zip, unzip the file,
+preprocess the data, and extrat the data for training, validation, and testing.
+
+The whole dataset is about 300MB and it will take a while to process the data.
+
+Run the following command to start the training:
+```shell
+python -m graphqa.train \
+    --skip-training=False \
+    --tokenize-data=False \
+    --output-dir=./output \
+    --model-dir=./output/model \
+    --max-steps=300 \
+    --predict-freq=3 \
+    --batch-size=128 \
+    --num-units=1024 \
+    --num-layers=2 \
+    --beam-width=10 \
+    --max-len-cypher=180 \
+    --learning-rate=0.001 \
+    --dropout=0.2
+```
+
+The above command trains a two-layer model with 1024-dim hidden units and
+embeddings for max-steps/predict_freq = 100 epochs. A dropout value of 0.2 is
+used.
+
+
+
 
 # Build the dataset to be used by training
 
