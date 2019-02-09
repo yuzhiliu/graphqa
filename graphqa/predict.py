@@ -17,6 +17,7 @@ import urllib.request
 import pathlib
 from fuzzywuzzy import process
 import itertools
+#from bert_serving.client import BertClient
 
 logger = logging.getLogger(__name__)
 
