@@ -123,7 +123,7 @@ python -m graphqa.predict
 
 
 <p align="center">
-<img width="80%" src="img/attention.png" />
+<img width="80%" src="img/attention.jpg" />
 <br>
 Figure 1. attention.
 </p>
