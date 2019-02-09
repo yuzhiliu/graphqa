@@ -119,13 +119,28 @@ python -m graphqa.predict
 
 ## Some details about the model
 
-### 
-
+### Bahdanau Attention 
 
 <p align="center">
 <img width="80%" src="img/attention.jpg" />
 <br>
 Figure 1. attention.
+</p>
+
+### Bidirectional RNN Encoder
+
+<p align="center">
+<img width="80%" src="img/bidirectional.jpg" />
+<br>
+Figure 1. Bidirectional RNN Encoder
+</p>
+
+### Beam Search
+
+<p align="center">
+<img width="80%" src="img/beam.jpg" />
+<br>
+Figure 1. An illustration of the beam search with beam width 2.
 </p>
 
 
