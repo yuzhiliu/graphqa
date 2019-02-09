@@ -84,6 +84,41 @@ The above command trains a two-layer model with 1024-dim hidden units and
 embeddings for max-steps/predict_freq = 100 epochs. A dropout value of 0.2 is
 used.
 
+The model is saved in the ./output/model directory.
+
+Alternatively, one can try
+```bash
+python -m graphqa.train --quick
+```
+This will use smaller batch size, one layer network, et al. and existing small
+test input files to train the model. The result will not be good at all though.
+It might be helpful to use this to debug the code.
+
+## Inference – How to use the model to build a QA system
+
+Once you have trained your model, you can use it to translate previously unseen
+English question to Cypher query language. This process is called inference.
+Since the ultimate goal is to get answers from the graph database, you will
+need to have a graph database installed to make predictions. The simplest way
+is to run a Docker image created by [Andrew
+Jefferson](https://neo4j.com/staff/andrew-jefferson/) and then create a
+database by running
+```shell
+bash start-neo4j-database.sh
+```
+
+You can also access the database from a regular browser window by typing
+[http://localhost:7474](http://localhost:7474) and signing in with Username:
+neo4j, Password:goodpasswd. At this stage, the database is empty.
+
+You can then run the following script to start the inference
+```shell
+python -m graphqa.predict
+```
+
+
+
+
 
 
 
