@@ -99,7 +99,7 @@ It might be helpful to use this to debug the code.
 Once you have trained your model, you can use it to translate previously unseen
 English question to Cypher query language. This process is called inference.
 Since the ultimate goal is to get answers from the graph database, you will
-need to have a graph database installed to make predictions. The simplest way
+need to have a graph database installed to run the inference. The simplest way
 is to run a Docker image created by [Andrew
 Jefferson](https://neo4j.com/staff/andrew-jefferson/) and then create a
 database by running
@@ -107,16 +107,26 @@ database by running
 bash start-neo4j-database.sh
 ```
 
-You can also access the database from a regular browser window by typing
-[http://localhost:7474](http://localhost:7474) and signing in with Username:
-neo4j, Password:goodpasswd. At this stage, the database is empty.
+After the database is created, you can also access the database from a regular
+browser window by typing [http://localhost:7474](http://localhost:7474) and
+signing in with Username: neo4j, Password:goodpasswd. At this stage, the
+database is empty.
 
 You can then run the following script to start the inference
 ```shell
 python -m graphqa.predict
 ```
 
+## Some details about the model
 
+### 
+
+
+<p align="center">
+<img width="80%" src="graphqa/img/attention.png" />
+<br>
+Figure 1. attention.
+</p>
 
 
 
