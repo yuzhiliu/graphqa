@@ -37,6 +37,8 @@ and then run
 make install
 ```
 
+
+
 ## Training – How to train a GraphQA system
 
 Let's train our GraphQA model, translating from English to
@@ -117,14 +119,25 @@ You can then run the following script to start the inference
 python -m graphqa.predict
 ```
 
-## Some details about the model
+## Some technical details about the model
+
+We will not go into details of the [seq2seq](https://google.github.io/seq2seq/) model here. Instead, let's look at some other technical details that are used on top of seq2seq.
 
 ### Bahdanau Attention 
+
+The *attention mechanism* was first introduced by by [Bahdanau et
+al.](https://arxiv.org/abs/1409.0473). The basic idea is to let the decoder pay
+*attention* to the source sentence. This allows the decoder also to carry part
+of the source sentence information while encoding. With this approach the
+information is spread throughout the sequence of annotations. By doing so, the
+algorithm improves the long sentence translations.
+
 
 <p align="center">
 <img width="80%" src="img/attention.jpg" />
 <br>
-Figure 1. attention.
+Figure 1. An illustration of the *attention mechanism* proposed by [Bahdanau
+etal.](https://arxiv.org/abs/1409.0473).
 </p>
 
 ### Bidirectional RNN Encoder
