@@ -5,7 +5,7 @@ watchdog==0.9.0
 flake8==3.5.0
 tox==3.5.2
 coverage==4.5.1
-Sphinx==1.8.1
+Sphinx
 twine==1.12.1
 
 pytest==3.8.2
@@ -18,3 +18,4 @@ neo4j-driver==1.6.2
 fuzzywuzzy==0.17.0
 bert-serving-server==1.7.9
 bert-serving-client==1.7.9
+recommonmark

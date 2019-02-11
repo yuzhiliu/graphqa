@@ -29,7 +29,8 @@ requirements = [
         'neo4j-driver==1.6.2',
         'fuzzywuzzy==0.17.0',
         'bert-serving-server==1.7.9',
-        'bert-serving-client==1.7.9'
+        'bert-serving-client==1.7.9',
+        'recommonmark'
         ]
 
 setup_requirements = ['pytest-runner', ]
