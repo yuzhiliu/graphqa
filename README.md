@@ -22,10 +22,13 @@ Environment*](https://docs.python-guide.org/dev/virtualenvs/) or use
 [*Conda*](https://docs.anaconda.com/anaconda/user-guide/tasks/switch-environment/).
 
 ## Installation:
+
 Once Python 3.6 is installed, you can download this source code by running
 ```shell
 git clone https://github.com/yuzhiliu/graphqa/
 ```
+
+### Installing from source
 
 To install all the dependencies needed for running the code, one can first go
 to the package directory
@@ -37,7 +40,25 @@ and then run
 make install
 ```
 
+### Installing using Docker
 
+Docker provides a virtual machine with everything set up to run the code. We
+have provided a *Dockerfile* for you to create your own Docker image.
+
+Once you have [installed Docker](https://docs.docker.com/engine/installation/) and downloaded our *Dockerfile*,  you can create the Docker image by running
+```shell
+cd graphqa/docker
+docker build -t graphqa:Insight19A .
+```
+**Do not ignore the "." in the above command.**
+
+After the Docker image is built, you can run
+```shell
+docker run -i -t graphqa:Insight19A /bin/bash
+```
+
+Note that the Docker image only contains the packages necessary for training
+the model.
 
 ## Training – How to train a GraphQA system
 
@@ -50,7 +71,7 @@ We will use [CLEV graph](https://github.com/Octavian-ai/clevr-graph) dataset
 
 Run the following command to download and preprocess the data
 ```shell
-python -m graphqa.build_data \
+python3 -m graphqa.build_data \
     --input-dir=./data/ \
     --skip-extract=False \
     --gqa-path=./data/gqa.yaml \
@@ -66,7 +87,7 @@ The whole dataset is about 300MB and it will take a while to process the data.
 
 Run the following command to start the training:
 ```shell
-python -m graphqa.train \
+python3 -m graphqa.train \
     --skip-training=False \
     --tokenize-data=False \
     --output-dir=./output \
@@ -90,7 +111,7 @@ The model is saved in the ./output/model directory.
 
 Alternatively, one can try
 ```bash
-python -m graphqa.train --quick
+python3 -m graphqa.train --quick
 ```
 This will use smaller batch size, one layer network, et al. and existing small
 test input files to train the model. The result will not be good at all though.
@@ -116,7 +137,7 @@ database is empty.
 
 You can then run the following script to start the inference
 ```shell
-python -m graphqa.predict
+python3 -m graphqa.predict
 ```
 
 ## Some technical details about the model
@@ -136,12 +157,13 @@ algorithm improves the long sentence translations.
 <p align="center">
 <img width="80%" src="img/attention.jpg" />
 <br>
-Figure 1. An illustration of the *attention mechanism* proposed by [Bahdanau
-etal.](https://arxiv.org/abs/1409.0473).
+Figure 1. An illustration of the *attention mechanism* proposed by Bahdanau et al.
 </p>
 
 ### Bidirectional RNN Encoder
 
+The encoder 
+Bidirectionality on the encoder side generally gives better performance
 <p align="center">
 <img width="80%" src="img/bidirectional.jpg" />
 <br>
@@ -156,6 +178,7 @@ Figure 1. Bidirectional RNN Encoder
 Figure 1. An illustration of the beam search with beam width 2.
 </p>
 
+### Dropout
 
 
 
