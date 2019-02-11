@@ -20,20 +20,17 @@ RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get autoclean \
  && rm -rf /var/lib/apt/lists/*
 
-
 ### 
 # CUDA stub libraries
 ###
 
 RUN ldconfig /usr/local/cuda/lib64/stubs
 
-
 ### 
 # graphqa/git:develop
 ###
 
-RUN cd /tmp \
+RUN cd /home \
  && git clone --depth 1 -b develop https://github.com/yuzhiliu/graphqa \
  && cd graphqa \
  && make install
-
