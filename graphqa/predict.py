@@ -17,7 +17,6 @@ import urllib.request
 import pathlib
 from fuzzywuzzy import process
 import itertools
-#from bert_serving.client import BertClient
 
 logger = logging.getLogger(__name__)
 
@@ -69,41 +68,20 @@ def print_examples(args):
             q_file.write(f"Does {s} have rail connections?\n")
             q_file.write(f"Which lines is {s} on?\n")
             q_file.write(f"How many lines is {s} on?\n")
-            q_file.write(f" {s}?\n")
 
         for l in lines:
-            q_file.write(f"How many architectural styles does {s} pass through?\n")
-            q_file.write(f"How many music styles does {s} pass through?\n")
-            q_file.write(f"How many size of station does {s} pass through?\n")
+            q_file.write(f"How many architectural styles does {l} pass through?\n")
+            q_file.write(f"How many music styles does {l} pass through?\n")
+            q_file.write(f"How many size of station does {l} pass through?\n")
             q_file.write(f"How many stations playing classical does {s} pass through?\n")
-            q_file.write(f"How many clean stations does {s} pass through?\n")
-            q_file.write(f"How many large stations does {s} pass through?\n")
-            q_file.write(f"How many stations with disabled access does {s} pass through?\n")
-            q_file.write(f"How many stations with rail connections does {s} pass through?\n")
-            q_file.write(f"Which stations does {s} pass through?\n")
+            q_file.write(f"How many clean stations does {l} pass through?\n")
+            q_file.write(f"How many large stations does {l} pass through?\n")
+            q_file.write(f"How many stations with disabled access does {l} pass through?\n")
+            q_file.write(f"How many stations with rail connections does {l} pass through?\n")
+            q_file.write(f"Which stations does {l} pass through?\n")
 
     a_station = lambda: random.choice(stations)
     a_line = lambda: random.choice(lines)
-    print(f"""Example questions:
-> Are {a_station()} and {a_station()} on the same line?
-> How clean is {a_station()}?
-> How big is {a_station()}?
-> What music plays at {a_station()}?
-> What architectural style is {a_station()}?
-> Does {a_station()} have disabled access?
-> Does {a_station()} have rail connections?
-> Which lines is {a_station()} on?
-> How many lines is {a_station()} on?
-> How many architectural styles does {a_line()} pass through?
-> How many music styles does {a_line()} pass through?
-> How many sizes of station does {a_line()} pass through?
-> How many stations playing classical does {a_line()} pass through?
-> How many clean stations does {a_line()} pass through?
-> How many large stations does {a_line()} pass through?
-> How many stations with disabled access does {a_line()} pass through?
-> How many stations with rail connections does {a_line()} pass through?
-> Which stations does {a_line()} pass through?
-""")
 
     print(f"""Example questions:
 > How clean is {a_station()}?
@@ -147,7 +125,7 @@ def load_questions(args):
     """ Read in the predefined questions. """
     with open(args["questions_path"]) as fp:
         questions = fp.read().splitlines()
-        print('%d questions loaded, avg. len of %d' % (len(questions), np.mean([len(d.split()) for d in questions])))
+        #print('%d questions loaded, avg. len of %d' % (len(questions), np.mean([len(d.split()) for d in questions])))
         return questions
 
 def cos_sim(a, b):
@@ -206,15 +184,15 @@ if __name__ == "__main__":
 
         while True:
             query_english = str(input("Ask a question: ")).strip()
-            print(query_english)
+            #print(query_english)
             # Pick one that is closest to the question asked
             query_english = process.extractOne(query_english, questions)[0]
             # query_english = extract_one_bert(query_english, questions)
-            print(query_english)
+            #print(query_english)
 
             logger.debug("Translating...")
             query_cypher = translate(args, query_english)
-            print(query_cypher)
+            #print(query_cypher)
 
             logger.debug("Run query")
             try:
@@ -229,7 +207,7 @@ if __name__ == "__main__":
                     for j in i.values():
                         all_answers.append(str(j))
 
-                print(all_answers)
+                #print(all_answers)
                 if len(all_answers) == 0:
                     print("Answer: There is always an answer but I wouldn't tell you now. Try to ask another one")
                 else:
