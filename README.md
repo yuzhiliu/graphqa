@@ -139,10 +139,14 @@ You can then run the following script to start the inference
 ```shell
 python3 -m graphqa.predict
 ```
+This will load the data into Neo4j database. Currently there is only command
+line interface available.
 
 ## Some technical details about the model
 
-We will not go into details of the [seq2seq](https://google.github.io/seq2seq/) model here. Instead, let's look at some other technical details that are used on top of seq2seq.
+We will not go into details of the [seq2seq](https://google.github.io/seq2seq/)
+model here. Instead, let's look at some other technical details that are used
+on top of seq2seq.
 
 ### Bahdanau Attention 
 
@@ -153,7 +157,6 @@ of the source sentence information while encoding. With this approach the
 information is spread throughout the sequence of annotations. By doing so, the
 algorithm improves the long sentence translations.
 
-
 <p align="center">
 <img width="80%" src="img/attention.jpg" />
 <br>
@@ -162,15 +165,22 @@ Figure 1. An illustration of the *attention mechanism* proposed by Bahdanau et a
 
 ### Bidirectional RNN Encoder
 
-The encoder 
-Bidirectionality on the encoder side generally gives better performance
+Bidirectionality on the encoder side generally gives better performance. It
+puts two independent RNN together. The input sequence is put into one RNN in
+normal order and the other RNN in reverse order.
+
 <p align="center">
 <img width="80%" src="img/bidirectional.jpg" />
 <br>
-Figure 1. Bidirectional RNN Encoder
+Figure 1. An illustration of the Bidirectional RNN Encoder.
 </p>
 
-### Beam Search
+### Beam Search Decoder
+
+Using beam search decoding can improve the code performance comparing with the
+greedy decoding. The idea of the beam search is to keep top N (beam width)
+token candidates at each step in memory. The next step is then expanded from
+these N tokens. 
 
 <p align="center">
 <img width="80%" src="img/beam.jpg" />
@@ -180,5 +190,9 @@ Figure 1. An illustration of the beam search with beam width 2.
 
 ### Dropout
 
+Dropout is a very simple way to prevent neural networks from overfitting. The
+main idea of dropout is to randomly drop a fraction of the units from the
+neural network during training. This prevents units from correlating too much. 
+A dropout value of 0.2 means that 80% of the units is kept.
 
 
