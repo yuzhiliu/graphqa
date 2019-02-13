@@ -1,21 +1,36 @@
-FROM nvidia/cuda:8.0-cudnn5-devel-ubuntu16.04
+#############################################
+### build Stage
+#############################################
 
+FROM nvidia/cuda:10.0-devel-ubuntu18.04 as nvidia
+LABEL maintainer=liuyuzhi83@gmail.com
 
-RUN apt-get update && apt-get install -y \
-  git \
-  python3.5 \
-  python3-pip \
-  python3-dev
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && apt-get update \
+ && apt-get install --no-install-recommends -y \
+    apt-utils \
+    build-essential \
+    git \
+    python3-setuptools \
+    python3.6 \
+    python3-pip \
+    python3-dev \
+ && apt-get autoremove -y \
+ && apt-get clean \
+ && apt-get autoclean \
+ && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --upgrade pip
+### 
+# CUDA stub libraries
+###
 
-COPY ./requirements.txt /requirements.txt
-RUN pip install -r /requirements.txt
+RUN ldconfig /usr/local/cuda/lib64/stubs
 
-ARG UID
-RUN useradd docker -l -u $UID -s /bin/bash -m
-USER docker
+### 
+# graphqa/git:develop
+###
 
-WORKDIR /work
-
-ENTRYPOINT ["/bin/bash"]
+RUN cd /home \
+ && git clone --depth 1 -b develop https://github.com/yuzhiliu/graphqa \
+ && cd graphqa \
+ && make install
