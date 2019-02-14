@@ -1,6 +1,16 @@
 .. highlight:: shell
 
 ============
+Requirements
+============
+
+- Python 3.6
+- Neo4j (for inference only)
+- Docker 17.03 or above
+- Nvidia GPU (training instance)
+
+
+============
 Installation
 ============
 

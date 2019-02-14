@@ -16,7 +16,7 @@ import zipfile
 import urllib.request
 import pathlib
 from fuzzywuzzy import process
-from bert_serving.client import BertClient
+import itertools
 
 logger = logging.getLogger(__name__)
 
@@ -53,6 +53,32 @@ def print_examples(args):
                 lines = [i["name"] for i in qa["graph"]["lines"][:8]]
                 names = ', '.join(lines)
                 print("> " + names + "\n")
+
+    with tf.gfile.GFile(args["questions_path"], "w") as q_file:
+        for s1, s2 in itertools.combinations(stations, 2):
+            q_file.write(f"Are {s1} and {s2} on the same line?\n")
+            q_file.write(f"Are {s2} and {s1} on the same line?\n")
+
+        for s in stations:
+            q_file.write(f"How clean is {s}?\n")
+            q_file.write(f"How big is {s}?\n")
+            q_file.write(f"What music plays at {s}?\n")
+            q_file.write(f"What architectural style is {s}?\n")
+            q_file.write(f"Does {s} have disabled access?\n")
+            q_file.write(f"Does {s} have rail connections?\n")
+            q_file.write(f"Which lines is {s} on?\n")
+            q_file.write(f"How many lines is {s} on?\n")
+
+        for l in lines:
+            q_file.write(f"How many architectural styles does {l} pass through?\n")
+            q_file.write(f"How many music styles does {l} pass through?\n")
+            q_file.write(f"How many size of station does {l} pass through?\n")
+            q_file.write(f"How many stations playing classical does {s} pass through?\n")
+            q_file.write(f"How many clean stations does {l} pass through?\n")
+            q_file.write(f"How many large stations does {l} pass through?\n")
+            q_file.write(f"How many stations with disabled access does {l} pass through?\n")
+            q_file.write(f"How many stations with rail connections does {l} pass through?\n")
+            q_file.write(f"Which stations does {l} pass through?\n")
 
     a_station = lambda: random.choice(stations)
     a_line = lambda: random.choice(lines)
@@ -99,7 +125,7 @@ def load_questions(args):
     """ Read in the predefined questions. """
     with open(args["questions_path"]) as fp:
         questions = fp.read().splitlines()
-        print('%d questions loaded, avg. len of %d' % (len(questions), np.mean([len(d.split()) for d in questions])))
+        #print('%d questions loaded, avg. len of %d' % (len(questions), np.mean([len(d.split()) for d in questions])))
         return questions
 
 def cos_sim(a, b):
@@ -133,7 +159,7 @@ if __name__ == "__main__":
         parser.add_argument("--neo-url",      type=str, default="bolt://localhost:7687")
         parser.add_argument("--neo-user",     type=str, default="neo4j")
         parser.add_argument("--neo-password", type=str, default="goodpasswd")
-        parser.add_argument("--questions-path",   type=str, default="./data/all_questions.txt")
+        parser.add_argument("--questions-path",   type=str, default="./data/all_questions2.txt")
 
     args = get_args(add_args)
 
@@ -158,12 +184,15 @@ if __name__ == "__main__":
 
         while True:
             query_english = str(input("Ask a question: ")).strip()
+            #print(query_english)
             # Pick one that is closest to the question asked
             query_english = process.extractOne(query_english, questions)[0]
             # query_english = extract_one_bert(query_english, questions)
+            #print(query_english)
 
             logger.debug("Translating...")
             query_cypher = translate(args, query_english)
+            #print(query_cypher)
 
             logger.debug("Run query")
             try:
@@ -178,6 +207,7 @@ if __name__ == "__main__":
                     for j in i.values():
                         all_answers.append(str(j))
 
+                #print(all_answers)
                 if len(all_answers) == 0:
                     print("Answer: There is always an answer but I wouldn't tell you now. Try to ask another one")
                 else:

@@ -197,6 +197,7 @@ def model_fn(features, labels, mode, params):
                 output_layer=output_layer,
                 length_penalty_weight=args['length_penalty_weight'])
 
+            # https://arxiv.org/abs/1609.08144 for penalty weight
             beam_decoded, _, _ = tf.contrib.seq2seq.dynamic_decode(
                 beam_decoder,
                 output_time_major=time_major,

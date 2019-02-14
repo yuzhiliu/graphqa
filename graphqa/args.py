@@ -41,8 +41,8 @@ def get_args(extend=lambda a:None):
 
     parser.add_argument('--learning-rate', type=float, default=0.001)
     parser.add_argument('--dropout', type=float, default=0.2)
-    parser.add_argument('--eval-holdback', type=float, default=0.1)
-    parser.add_argument('--predict-holdback', type=float, default=0.005)
+    parser.add_argument('--eval-holdback', type=float, default=0.2)
+    parser.add_argument('--predict-holdback', type=float, default=0.1)
     parser.add_argument('--forget-bias', type=float, default=1.0)
     parser.add_argument('--length-penalty-weight', type=float, default=1.0)
 
