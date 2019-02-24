@@ -209,8 +209,13 @@ A dropout value of 0.2 means that 80% of the units is kept.
 The main result is that the model can now handle more flexible questions.
 
 <p align="center">
-<img width="40%" src="img/model_comparision_1.jpg" />
-<img width="40%" src="img/model_comparision_2.jpg" />
+<img width="80%" src="img/model_comparision_1.jpg" />
+<br>
+Figure 1. The new model can answer more flexible questions.
+</p>
+
+<p align="center">
+<img width="80%" src="img/model_comparision_2.jpg" />
 <br>
 Figure 1. The new model can answer more flexible questions.
 </p>
