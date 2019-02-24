@@ -6,6 +6,12 @@ GraphQA is a question answering (QA) system built ove knowledge graphs (KG).
 This is based on [english2cypher](https://github.com/Octavian-ai/english2cypher) [David Mack](https://medium.com/@DavidMack) built.
 
 
+<p align="center">
+<img width="80%" src="img/gqa_readme_example.jpg" />
+<br>
+Figure 1. An illustration of the GraphQA system.
+</p>
+
 ## Requirements
 
 - Python 3.6
@@ -113,7 +119,7 @@ Alternatively, one can try
 ```bash
 python3 -m graphqa.train --quick
 ```
-This will use smaller batch size, one layer network, et al. and existing small
+This will use smaller batch size, one layer network, et al., and existing small
 test input files to train the model. The result will not be good at all though.
 It might be helpful to use this to debug the code.
 
@@ -127,6 +133,7 @@ is to run a Docker image created by [Andrew
 Jefferson](https://neo4j.com/staff/andrew-jefferson/) and then create a
 database by running
 ```shell
+cd scripts
 bash start-neo4j-database.sh
 ```
 
