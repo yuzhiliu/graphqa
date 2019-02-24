@@ -3,7 +3,8 @@
 
 GraphQA is a question answering (QA) system built over knowledge graphs (KG).
 
-This is based on [english2cypher](https://github.com/Octavian-ai/english2cypher) [David Mack](https://medium.com/@DavidMack) built.
+This is based on [english2cypher](https://github.com/Octavian-ai/english2cypher)
+[Octavian-ai](https://www.octavian.ai/) built.
 
 The trained model can transform English questions into
 [Cypher](https://neo4j.com/developer/cypher-query-language/) queries and then
@@ -24,6 +25,7 @@ query answers from the [Neo4j](https://neo4j.com/) graph database.
    - [Beam Search Decoder](#beam-search-decoder)
    - [Dropout](#dropout)
 - [Results](#results)
+- [Acknowledgments](#Acknowledgments)
 
 
 ## Overview
@@ -190,7 +192,7 @@ algorithm improves the long sentence translations.
 <p align="center">
 <img width="80%" src="img/attention.jpg" />
 <br>
-Figure 1. An illustration of the *attention mechanism* proposed by Bahdanau et al.
+Figure 2. An illustration of the *attention mechanism* proposed by Bahdanau et al.
 </p>
 
 ### Bidirectional RNN Encoder
@@ -202,7 +204,7 @@ normal order and the other RNN in reverse order.
 <p align="center">
 <img width="80%" src="img/bidirectional.jpg" />
 <br>
-Figure 1. An illustration of the Bidirectional RNN Encoder.
+Figure 3. An illustration of the Bidirectional RNN Encoder.
 </p>
 
 ### Beam Search Decoder
@@ -215,7 +217,7 @@ these N tokens.
 <p align="center">
 <img width="80%" src="img/beam.jpg" />
 <br>
-Figure 1. An illustration of the beam search with beam width 2.
+Figure 4. An illustration of the beam search with beam width 2.
 </p>
 
 ### Dropout
@@ -233,11 +235,17 @@ The main result is that the model can now handle more flexible questions.
 <p align="center">
 <img width="80%" src="img/model_comparision_1.jpg" />
 <br>
-Figure 1. The new model can answer more flexible questions.
+Figure 5. The new model can answer more flexible questions.
 </p>
 
 <p align="center">
 <img width="80%" src="img/model_comparision_2.jpg" />
 <br>
-Figure 1. The new model can answer more flexible questions.
+Figure 6. The new model can answer more flexible questions.
 </p>
+
+## Acknowledgments
+
+This project was developed entirely based on
+[english2cypher](https://github.com/Octavian-ai/english2cypher)
+[Octavian-ai](https://www.octavian.ai/) built.
