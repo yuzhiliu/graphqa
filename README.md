@@ -1,11 +1,12 @@
 # GraphaQA
 [![Build Status](https://travis-ci.org/yuzhiliu/graphqa.svg?branch=week2)](https://travis-ci.org/yuzhiliu/graphqa)
 
-GraphQA is a question answering (QA) system built ove knowledge graphs (KG).
+GraphQA is a question answering (QA) system built over knowledge graphs (KG).
 
 This is based on [english2cypher](https://github.com/Octavian-ai/english2cypher) [David Mack](https://medium.com/@DavidMack) built.
 
-
+The following is a screenshot of the GraphQA system. Currently it does not have
+a user friendly API yet.
 <p align="center">
 <img width="80%" src="img/gqa_readme_example.jpg" />
 <br>
@@ -203,3 +204,13 @@ neural network during training. This prevents units from correlating too much.
 A dropout value of 0.2 means that 80% of the units is kept.
 
 
+## Results
+
+The main result is that the model can now handle more flexible questions.
+
+<p align="center">
+<img width="40%" src="img/model_comparision_1.jpg" />
+<img width="40%" src="img/model_comparision_2.jpg" />
+<br>
+Figure 1. The new model can answer more flexible questions.
+</p>
