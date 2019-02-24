@@ -9,6 +9,24 @@ The trained model can transform English questions into
 [Cypher](https://neo4j.com/developer/cypher-query-language/) queries and then
 query answers from the [Neo4j](https://neo4j.com/) graph database.
 
+
+
+- [Overview](#overview)
+- [Requirements](#requirements)
+- [Installation](#installation)
+   - [Installing from source](#installing-from-source)
+   - [Installing using Docker](#installing-using-docker)
+- [Training – How to train a GraphQA system](#training)
+- [Inference – How to use the model to build a QA system](#inference)
+- [Some technical details about the model](#details)
+   - [Bahdanau Attention](#bahdanau-attention)
+   - [Bidirectional RNN Encoder](#bidirectional-rnn-encoder)
+   - [Beam Search Decoder](#beam-search-decoder)
+   - [Dropout](#dropout)
+- [Results](#results)
+
+
+## Overview
 The following is a screenshot of the GraphQA system. Currently it does not have
 a user friendly API yet.
 <p align="center">
