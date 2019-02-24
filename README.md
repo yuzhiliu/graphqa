@@ -5,6 +5,10 @@ GraphQA is a question answering (QA) system built over knowledge graphs (KG).
 
 This is based on [english2cypher](https://github.com/Octavian-ai/english2cypher) [David Mack](https://medium.com/@DavidMack) built.
 
+The trained model can transform English questions into
+[Cypher](https://neo4j.com/developer/cypher-query-language/) queries and then
+query answers from the [Neo4j](https://neo4j.com/) graph database.
+
 The following is a screenshot of the GraphQA system. Currently it does not have
 a user friendly API yet.
 <p align="center">
